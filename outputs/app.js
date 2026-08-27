@@ -1,0 +1,14 @@
+const page = Number(document.body.dataset.page || 1);
+const key='spaceStemProgress';
+let progress=Number(localStorage.getItem(key)||1);
+function dots(){document.querySelectorAll('.dot').forEach((d,i)=>d.className='dot '+(i+1<page?'done':i+1===page?'current':''));}
+function locked(){if(page>progress){document.querySelector('main').innerHTML=`<section class="card locked"><div class="lock">🔒</div><h1>Mission locked!</h1><p>Complete the earlier challenge first. Space explorers learn one skill at a time.</p><a class="button primary" href="page${progress}.html">Go to my mission</a></section>`;}}
+function complete(){progress=Math.max(progress,page+1);localStorage.setItem(key,progress);document.querySelectorAll('[data-next]').forEach(x=>{x.disabled=false;x.classList.add('primary')});const a=document.querySelector('#answer');if(a)a.classList.add('show');}
+function setup(){dots();locked();if(page>progress)return;
+ document.querySelectorAll('.choice').forEach(c=>c.onclick=()=>{document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));c.classList.add('selected');document.querySelector('#answer').classList.add('show');complete();});
+ const launch=document.querySelector('#launch'); if(launch)launch.onclick=()=>{document.querySelector('#rocket').textContent='🚀';document.querySelector('#answer').classList.add('show');complete();};
+ const drag=document.querySelectorAll('[draggable=true]'),zone=document.querySelector('#ship'); drag.forEach(x=>x.ondragstart=e=>e.dataTransfer.setData('text',x.dataset.part)); if(zone){zone.ondragover=e=>{e.preventDefault();zone.classList.add('over')};zone.ondragleave=()=>zone.classList.remove('over');zone.ondrop=e=>{e.preventDefault();zone.classList.remove('over');let p=e.dataTransfer.getData('text');if(!zone.querySelector(`[data-placed="${p}"]`)){let el=document.createElement('span');el.className='placed';el.dataset.placed=p;el.title=p;el.textContent={nose:'🔺',body:'🛸',engine:'🔥',fin:'🔻'}[p];zone.append(el)}if(zone.children.length===4){document.querySelector('#answer').classList.add('show');complete()}}}
+ const speed=document.querySelector('#speed'),angle=document.querySelector('#angle'); if(speed&&angle){let draw=()=>{let s=+speed.value,a=+angle.value;document.querySelector('#speedV').textContent=s;document.querySelector('#angleV').textContent=a;let peak=Math.round(s*Math.sin(a*Math.PI/180)/2);document.querySelector('#peak').textContent=peak;document.querySelector('#curve').setAttribute('d',`M 15 200 Q 125 ${200-peak} 260 200`)};speed.oninput=angle.oninput=draw;draw();document.querySelector('#solve').onclick=()=>{document.querySelector('#answer').classList.add('show');complete()}}
+ const read=document.querySelector('#read');if(read)read.onclick=()=>{read.textContent='Feedback received!';document.querySelector('#answer').classList.add('show');complete()};
+}
+document.addEventListener('DOMContentLoaded',setup);
