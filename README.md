@@ -22,4 +22,5 @@ Make it more difficult.
 
 Expand It:
 
+How did you rework the site into a solar system where students must discover all six subject planets to earn a certificate?
 Put the activities in order. Make each activity correspond to one planet. Once they finish the activity, they unlock the corresponding planet. The planet has extra activities once unlocked.
