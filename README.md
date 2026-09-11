@@ -19,7 +19,7 @@ History and Teamwork (page 1): Intro to space. Science (page 2): How rockets wor
 
 What words best describe the look and feel that you want?
 
-Educational, simple, fu, inspirational.
+Educational, simple, fun, inspirational.
 
 Test It:
 
